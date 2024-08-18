@@ -52,11 +52,13 @@ exports.createUser = catchAsyncErrors(async (req, res, next) => {
         // Send token in Cookies (Production settings)
         res.cookie('accessToken', accessToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
         res.cookie('refreshToken', refreshToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
@@ -116,12 +118,14 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         // Send Tokens in cookies (Production settings)
         res.cookie('accessToken', accessToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
 
         res.cookie('refreshToken', refreshToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
@@ -151,10 +155,12 @@ exports.logOutUser = catchAsyncErrors(async (req, res, next) => {
 
          // Delete cookies
          res.clearCookie("accessToken", {
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
         res.clearCookie("refreshToken", {
+            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
