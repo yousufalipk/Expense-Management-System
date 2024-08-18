@@ -1,0 +1,49 @@
+.heading {
+    text-align: center;
+    font-family: cursive;
+}
+
+.seperator {
+    width: 80%;
+    margin-bottom: 25px;
+}
+
+.container{ 
+   display: flex;
+   align-items: center;
+   justify-content: center; 
+}
+
+.feild label{
+    font-size: medium;
+    font-family: cursive;
+}
+
+.feild input{
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.feild select {
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    width: 110%;
+    margin: 20px 0px;
+}
+
+.btn{ 
+    background-color: #006d77;
+    border: none;
+    color: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.btn:hover {
+    cursor: pointer;
+}

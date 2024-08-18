@@ -1,0 +1,23 @@
+body{
+  margin: 0px;
+  padding: 0px;
+  background-color: #f4f4f4;
+  color: #333333;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* For Webkit Browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none; /* Hide scrollbar */
+}
+

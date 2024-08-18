@@ -1,0 +1,36 @@
+.heading { 
+    color: #006d77;
+    text-align: center;
+    font-family: cursive;
+    font-style: italic;
+}
+
+.container{ 
+    padding: 5px;
+}
+
+.navbar {
+    display: flex;
+    padding: 20px;
+}
+
+.seperator {
+    margin-bottom: 50px;
+    width: 80%;
+}
+
+.buttons {
+    margin-left: auto;
+    display: flex;
+}
+
+.btn {
+    background-color: transparent;
+    border: none;
+    margin: auto 10px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
