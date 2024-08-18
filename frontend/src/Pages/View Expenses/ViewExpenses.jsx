@@ -23,10 +23,10 @@ const ViewExpenses = () => {
             if (response.data.expenses.length > 0) {
               setExpenses(response.data.expenses);
             } else {
-                toast.error("Error fetching expenses!");
+                console.log("No Expenses");
             }
         } else {
-            toast.error("Error fetching expenses!");
+            console.log("No Expenses")
         }
       } catch (error) {
         console.log("Error", error);

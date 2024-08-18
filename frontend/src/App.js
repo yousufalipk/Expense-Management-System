@@ -8,49 +8,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthLayout from './Layout/Auth/Auth';
 import AdminLayout from './Layout/Admin/Admin';
 
-// Refresh Token Function
-const refreshToken = async () => {
-  const apiUrl = process.env.REACT_APP_API_URL;
-  try {
-    const response = await axios.get(`${apiUrl}/refresh`, { withCredentials: true });
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-}
+//Hook 
+import UseAutoLogin from './hooks/useAutoLogin';
+
 
 function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
 
-  const refreshAuthToken = async () => {
-    try {
-      const response = await refreshToken();
-      if (response && response.data.auth) {
-        setAuth(true);
-        setToggle(true);
-      } else {
-        setAuth(false);
-        setToggle(false);
-      }
-    } catch (error) {
-      setAuth(false);
-      setToggle(false);
-    }
-  };
+  const loading = UseAutoLogin();
 
-  
-  // useEffect(() => {
-
-  //   refreshAuthToken();
-  // }, []);
-
-  // if (isAuth === null) {
-  //   // Render nothing while authentication is being checked
-  //   return null;
-  // }
-
-  return (
+  return loading ? (<></>):(
     <>
       <ToastContainer />
       <BrowserRouter>
