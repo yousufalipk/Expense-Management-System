@@ -8,15 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import AuthLayout from './Layout/Auth/Auth';
 import AdminLayout from './Layout/Admin/Admin';
 
-//Hook 
-import useAutoLogin from './hooks/useAutoLogin';
-
 
 function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
-
-  useAutoLogin({ setAuth, setToggle });
 
   return (
     <>
