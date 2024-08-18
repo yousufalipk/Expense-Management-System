@@ -39,16 +39,16 @@ function App() {
     }
   };
 
-
+  
   // useEffect(() => {
 
   //   refreshAuthToken();
   // }, []);
 
-  if (isAuth === null) {
-    // Render nothing while authentication is being checked
-    return null;
-  }
+  // if (isAuth === null) {
+  //   // Render nothing while authentication is being checked
+  //   return null;
+  // }
 
   return (
     <>
