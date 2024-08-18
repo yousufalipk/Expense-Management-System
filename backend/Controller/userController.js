@@ -149,9 +149,15 @@ exports.logOutUser = catchAsyncErrors(async (req, res, next) => {
 
         await RefreshTokenModel.deleteOne({ token: refreshToken });
 
-        // delete cookies
-        res.clearCookie("accessToken");
-        res.clearCookie("refreshToken");
+         // Delete cookies
+         res.clearCookie("accessToken", {
+            sameSite: "None",
+            secure: true // Only sent over HTTPS
+        });
+        res.clearCookie("refreshToken", {
+            sameSite: "None",
+            secure: true // Only sent over HTTPS
+        });
 
         // Response
         return res.status(200).json({
