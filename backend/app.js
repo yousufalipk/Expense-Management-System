@@ -7,16 +7,29 @@ const cors = require('cors');
 const user = require('./Routes/userRoutes');
 const expense = require('./Routes/expenseRoutes');
 
-const apiUrl = process.env.FRONTEND_ORIGIN;
-
-app.use(cors({
-    origin: apiUrl,
-    credentials: true 
-}));
 
 app.use(express.json());
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(cookieParser());
+
+
+const allowedOrigins = [
+    'https://expense-management-system-frontend-beta.vercel.app',
+    'https://expense-management-system-frontend-bwbu8gmso.vercel.app'
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
+
+
 
 // Use '/api/v1/' for user routes
 app.use('/api/v1', user);
