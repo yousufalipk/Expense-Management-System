@@ -52,13 +52,11 @@ exports.createUser = catchAsyncErrors(async (req, res, next) => {
         // Send token in Cookies (Production settings)
         res.cookie('accessToken', accessToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
-            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
         res.cookie('refreshToken', refreshToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
-            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
@@ -118,14 +116,12 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         // Send Tokens in cookies (Production settings)
         res.cookie('accessToken', accessToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
-            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
 
         res.cookie('refreshToken', refreshToken, {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
-            httpOnly: true,
             sameSite: "None",
             secure: true // Only sent over HTTPS
         });
@@ -153,17 +149,9 @@ exports.logOutUser = catchAsyncErrors(async (req, res, next) => {
 
         await RefreshTokenModel.deleteOne({ token: refreshToken });
 
-        // Delete cookies (Production settings)
-        res.clearCookie("accessToken", {
-            httpOnly: true,
-            sameSite: "None",
-            secure: true // Only sent over HTTPS
-        });
-        res.clearCookie("refreshToken", {
-            httpOnly: true,
-            sameSite: "None",
-            secure: true // Only sent over HTTPS
-        });
+        // delete cookies
+        res.clearCookie("accessToken");
+        res.clearCookie("refreshToken");
 
         // Response
         return res.status(200).json({
@@ -222,14 +210,12 @@ exports.refresh = catchAsyncErrors(async (req, res, next) => {
 
             res.cookie("accessToken", accessToken, {
                 maxAge: 1000 * 60 * 60 * 24, // 24 hours
-                httpOnly: true,
                 sameSite: "None",
                 secure: true // Only sent over HTTPS
             });
 
             res.cookie("refreshToken", refreshToken, {
                 maxAge: 1000 * 60 * 60 * 24, // 24 hours
-                httpOnly: true,
                 sameSite: "None",
                 secure: true // Only sent over HTTPS
             });
