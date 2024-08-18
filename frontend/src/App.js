@@ -23,25 +23,27 @@ function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
 
-  useEffect(() => {
-    const refreshAuthToken = async () => {
-      try {
-        const response = await refreshToken();
-        if (response && response.data.auth) {
-          setAuth(true);
-          setToggle(true);
-        } else {
-          setAuth(false);
-          setToggle(false);
-        }
-      } catch (error) {
+  const refreshAuthToken = async () => {
+    try {
+      const response = await refreshToken();
+      if (response && response.data.auth) {
+        setAuth(true);
+        setToggle(true);
+      } else {
         setAuth(false);
         setToggle(false);
       }
-    };
+    } catch (error) {
+      setAuth(false);
+      setToggle(false);
+    }
+  };
 
-    refreshAuthToken();
-  }, []);
+
+  // useEffect(() => {
+
+  //   refreshAuthToken();
+  // }, []);
 
   if (isAuth === null) {
     // Render nothing while authentication is being checked
