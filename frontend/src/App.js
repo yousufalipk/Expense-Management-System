@@ -9,16 +9,16 @@ import AuthLayout from './Layout/Auth/Auth';
 import AdminLayout from './Layout/Admin/Admin';
 
 //Hook 
-import UseAutoLogin from './hooks/useAutoLogin';
+import useAutoLogin from './hooks/useAutoLogin';
 
 
 function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
 
-  const loading = UseAutoLogin();
+  useAutoLogin({ setAuth, setToggle });
 
-  return loading ? (<></>):(
+  return (
     <>
       <ToastContainer />
       <BrowserRouter>
