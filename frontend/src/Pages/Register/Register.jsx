@@ -3,11 +3,11 @@ import styles from './Register.module.css';
 
 import RegisterForm from '../../components/Forms/RegisterForm/RegisterForm';
 
-const Register = (props) => {
+const Register = () => {
   return (
     <>
         <div className={styles.container}>
-            <RegisterForm setToggle={props.setToggle} setAuth={props.setAuth}/>
+            <RegisterForm />
         </div>
     </>
   )

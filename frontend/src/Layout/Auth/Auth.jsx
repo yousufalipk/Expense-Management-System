@@ -1,11 +1,12 @@
 import styles from './Auth.module.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 
 //Importing Login & Register Froms
 import LoginPage from '../../Pages/Login/Login';
 import RegisterPage from '../../Pages/Register/Register';
+import OtpPage from '../../Pages/Otp/Otp';
 import NavBar from '../../components/NavBar/NavBar';
 
 
@@ -19,7 +20,8 @@ const AuthLayout = ({ toggle, setToggle, setAuth}) => {
                     {/* Sub Routes  */}
                     <Routes>
                         <Route path='*' element={<LoginPage setToggle={setToggle} setAuth={setAuth}/>} />
-                        <Route path='/register' element={<RegisterPage setToggle={setToggle} setAuth={setAuth}/>} />
+                        <Route path='/register' element={<RegisterPage />} />
+                        <Route path='/otp' element={<OtpPage />} />
                     </Routes>
                 </div>
 

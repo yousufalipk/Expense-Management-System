@@ -7,7 +7,9 @@ const {
     createUser,
     loginUser,
     logOutUser,
-    refresh
+    refresh,
+    generateOtp,
+    verifyOtp
 } = require('../Controller/userController');
 
 //Create User
@@ -19,9 +21,14 @@ router.route('/login-user').post(loginUser);
 //Log Out user
 router.get('/logout-user', auth, logOutUser);
 
-
 //Refresh page
 router.route('/refresh').get(refresh);
+
+//Generate otp
+router.route('/generate-otp').post(generateOtp);
+
+//Verify Otp
+router.route('/verify-otp').post(verifyOtp);
 
 module.exports = router;
 

@@ -1,45 +1,58 @@
 const jwt = require('jsonwebtoken');
 const RefreshTokenModel = require('../models/token');
-
 const dotenv = require('dotenv');
+
 dotenv.config();
 
-const RefereshTokenSecret = process.env.REFRESH_TOKEN;
-const AccessTokenSecret = process.env.ACCESS_TOKEN;
+const RefreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
+const AccessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
-class JWTService{ 
-    //Sign access token 
-    static signAccessToken(payload, expiryTime){
-        return jwt.sign(payload, AccessTokenSecret, {expiresIn: expiryTime});
-    }
-    //sign refresh token
-    static signRefreshToken(payload, expiryTime){
-        return jwt.sign(payload, RefereshTokenSecret, {expiresIn: expiryTime});
+class JWTService { 
+    // Sign access token
+    static signAccessToken(payload, expiryTime) {
+        return jwt.sign(payload, AccessTokenSecret, { expiresIn: expiryTime });
     }
 
-    //verify access token 
-    static verifyAccessToken(token){
-        return jwt.verify(token, AccessTokenSecret);
-    }
-    //verify refresh token 
-    static verifyRefreshToken(token){
-        return jwt.verify(token, RefereshTokenSecret);
+    // Sign refresh token
+    static signRefreshToken(payload, expiryTime) {
+        return jwt.sign(payload, RefreshTokenSecret, { expiresIn: expiryTime });
     }
 
-    //store refresh token
-    static async storeRefreshToken(token, userId){
-        try{
-            const newToken = new RefreshTokenModel({
-                token: token, 
-                userId: userId
-            })
+    // Verify access token
+    static verifyAccessToken(token) {
+        try {
+            return jwt.verify(token, AccessTokenSecret);
+        } catch (error) {
+            throw new Error('Invalid access token');
+        }
+    }
 
-            //store in db 
-            await newToken.save();
+    // Verify refresh token
+    static verifyRefreshToken(token) {
+        try {
+            return jwt.verify(token, RefreshTokenSecret);
+        } catch (error) {
+            throw new Error('Invalid refresh token');
+        }
+    }
 
-
-        }catch(error){
-            console.log(error);
+    // Store refresh token
+    static async storeRefreshToken(token, userId) {
+        try {
+            const existingToken = await RefreshTokenModel.findOne({ userId });
+            if (existingToken) {
+                existingToken.token = token;
+                await existingToken.save();
+            } else {
+                // Store new token
+                const newToken = new RefreshTokenModel({
+                    token: token, 
+                    userId: userId
+                });
+                await newToken.save();
+            }
+        } catch (error) {
+            console.error('Error storing refresh token:', error);
         }
     }
 }

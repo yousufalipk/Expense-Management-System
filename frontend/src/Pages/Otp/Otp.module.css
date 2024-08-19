@@ -10,14 +10,16 @@
     border-radius: 10px;
 }
 
-.heading, .box {
+.box {
     width: 100%; 
     box-sizing: border-box; 
 }
 
 
-.heading {
+.note{
     text-align: center;
+    margin: 10px 30px;
+    font-size: medium;
 }
 
 .box{
@@ -49,7 +51,8 @@
 }
 
 
-.error{
-    color: red;
+.resendBtn{
+    background-color: transparent;
+    border: none;
+    color: blue;
 }
-

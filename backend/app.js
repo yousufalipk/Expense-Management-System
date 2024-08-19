@@ -13,23 +13,12 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
-const allowedOrigins = [
-    'https://expense-management-system-frontend-beta.vercel.app',
-    'https://expense-management-system-frontend-bwbu8gmso.vercel.app'
-];
-
+// Use CORS middleware to allow requests from any origin
 app.use(cors({
-    origin: function (origin, callback) {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true
+    origin: 'http://localhost:3000', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true,
 }));
-
-
 
 // Use '/api/v1/' for user routes
 app.use('/api/v1', user);

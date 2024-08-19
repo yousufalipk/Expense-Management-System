@@ -1,38 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Importing Layouts
 import AuthLayout from './Layout/Auth/Auth';
 import AdminLayout from './Layout/Admin/Admin';
 
-
 function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
 
+  useEffect(() => {
+    const refreshAuthToken = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/v1/refresh', { 
+          withCredentials: true 
+        });
+        
+        if (response.data.auth) {
+          console.log("Tokens Refreshed!")
+          setAuth(true);
+          setToggle(true);
+        } else {
+          setAuth(false);
+          setToggle(false);
+        }
+      } catch (error) {
+        setAuth(false);
+      }
+    };
+
+    refreshAuthToken();
+  }, [isAuth, toggle]);
+
+
   return (
     <>
       <ToastContainer />
-      <BrowserRouter>
-        <Routes>
-          {isAuth && toggle ? (
-            <>
-              {/* Protected Admin Routes */}
-              <Route path="/admin/*" element={<AdminLayout toggle={toggle} setToggle={setToggle} setAuth={setAuth} />} />
-              <Route path="*" element={<AdminLayout toggle={toggle} setToggle={setToggle} setAuth={setAuth} />} />
-            </>
-          ) : (
-            <>
-              {/* Auth Routes */}
-              <Route path="/auth/*" element={<AuthLayout setToggle={setToggle} toggle={toggle} setAuth={setAuth} />} />
-              <Route path="*" element={<AuthLayout setToggle={setToggle} toggle={toggle} setAuth={setAuth} />} />
-            </>
-          )}
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        {isAuth && toggle ? (
+          <>
+            {/* Protected Admin Routes */}
+            <Route path="/admin/*" element={<AdminLayout toggle={toggle} setToggle={setToggle} setAuth={setAuth} />} />
+            <Route path="*" element={<AdminLayout toggle={toggle} setToggle={setToggle} setAuth={setAuth} />} />
+          </>
+        ) : (
+          <>
+            {/* Auth Routes */}
+            <Route path="/auth/*" element={<AuthLayout setToggle={setToggle} toggle={toggle} setAuth={setAuth} />} />
+            <Route path="*" element={<AuthLayout setToggle={setToggle} toggle={toggle} setAuth={setAuth} />} />
+          </>
+        )}
+      </Routes>
     </>
   );
 }

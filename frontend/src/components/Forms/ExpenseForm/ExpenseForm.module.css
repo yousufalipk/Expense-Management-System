@@ -47,3 +47,7 @@
 .btn:hover {
     cursor: pointer;
 }
+
+.error{
+    color: red;
+}

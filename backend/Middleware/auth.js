@@ -3,46 +3,62 @@ const UserModel = require('../models/userModel');
 const UserDTO = require('../Dto/user');
 
 const auth = async (req, res, next) => {
-    try{
-        // 1. refresh, access token validation
-    const {refreshToken, accessToken} = req.cookies;
+    try {
+        // 1. Retrieve tokens from cookies
+        const { refreshToken, accessToken } = req.cookies;
 
-    if (!refreshToken || !accessToken){
-        const error = {
-            status: 401,
-            message: 'Unauthorized'
+        // 2. Check if both tokens are present
+        if (!refreshToken || !accessToken) {
+            return res.status(200).json({
+                status: 'failed',
+                message: 'Authorization tokens are missing.'
+            });
         }
 
-        return next(error)
-    }
+        let userId;
 
-    let _id;
+        try {
+            // 3. Verify access token
+            const decodedAccessToken = JWTService.verifyAccessToken(accessToken);
+            userId = decodedAccessToken._id;
+        } catch (error) {
+            return res.status(200).json({
+                status: 'failed',
+                message: 'Invalid or expired access token.'
+            });
+        }
 
-    try{
-        _id = JWTService.verifyAccessToken(accessToken)._id;
-    }
-    catch(error){
-        return next(error);
-    }
+        let user;
 
-    let user;
+        try {
+            // 4. Fetch user from the database
+            user = await UserModel.findById(userId);
+        } catch (error) {
+            return res.status(200).json({
+                status: 'failed',
+                message: 'Internal server error while fetching user data.'
+            });
+        }
 
-    try{
-        user = await UserModel.findOne({_id: _id});
-    }
-    catch(error){
-        return next(error);
-    }
+        if (!user) {
+            return res.status(200).json({
+                status: 'failed',
+                message: 'User not found.'
+            });
+        }
 
-    const userDto = new UserDTO(user);
+        // 5. Attach user data to request
+        const userDto = new UserDTO(user);
+        req.user = userDto;
 
-    req.user = userDto;
-
-    next();
+        // 6. Proceed to the next middleware or route handler
+        next();
+    } catch (error) {
+        return res.status(500).json({
+            status: 'failed',
+            message: 'An unexpected error occurred.'
+        });
     }
-    catch(error){
-        return next(error);
-    }
-}
+};
 
 module.exports = auth;
