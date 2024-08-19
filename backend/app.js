@@ -9,19 +9,18 @@ const app = express();
 
 app.use(cookieParser());
 
-
+// CORS configuration
 app.use(
     cors({
-      origin: function (origin, callback) {
-        return callback(null, true);
-      },
-      optionsSuccessStatus: 200,
-      credentials: true,
+        origin: 'https://expense-management-system-frontend-beta.vercel.app',
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['X-CSRF-Token', 'X-Requested-With', 'Accept', 'Accept-Version', 'Content-Length', 'Content-MD5', 'Content-Type', 'Date', 'X-Api-Version'],
+        credentials: true,
+        optionsSuccessStatus: 200
     })
-  );
+);
 
-
-  app.use(express.json());
+app.use(express.json());
 
 // Use '/api/v1' for user routes
 app.use('/api/v1', user);
@@ -32,6 +31,5 @@ app.use('/api/v1/expense', expense);
 app.get('/', (req, res) => {
     res.send('Server Runs Correctly');
 });
-
 
 module.exports = app;
