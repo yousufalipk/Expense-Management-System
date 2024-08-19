@@ -12,16 +12,17 @@ const app = express();
 
 app.use(cookieParser());
 
-// CORS configuration
+
+//CORS COnfig
 app.use(
     cors({
-        origin: {
-          FRONTEND_DOMAIN, 
-          FRONTEND_DEPLOYEMENT
-        },
-        credentials: true,
+      origin: function (origin, callback) {
+        return callback(null, true);
+      },
+      optionsSuccessStatus: 200,
+      credentials: true,
     })
-);
+  );
 
 app.use(express.json());
 
