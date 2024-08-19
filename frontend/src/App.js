@@ -16,22 +16,11 @@ function App() {
   useEffect(() => {
     const refreshAuthToken = async () => {
       try {
-        // const response = await axios.get(`${apiUrl}/refresh`, { 
-        //   withCredentials: true 
-        // });
-
-        const response = await fetch(`${apiUrl}/refresh`,{
-          method:"GET",
-          body:JSON.stringify({
-          }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-
-        const data = await response.json()
+        const response = await axios.get(`${apiUrl}/refresh`, { 
+          withCredentials: true 
+        });
         
-        if (data.auth) {
+        if (response.data.auth) {
           console.log("Tokens Refreshed!")
           setAuth(true);
           setToggle(true);

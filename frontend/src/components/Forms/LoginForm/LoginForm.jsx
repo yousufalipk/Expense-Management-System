@@ -31,7 +31,7 @@ const LoginForm = (props) => {
                 }, {
                     withCredentials: true
                 });
-                console.log("Response", response);
+
 
                 if (response.data.status === "success") {
                     localStorage.setItem('userId', response.data.user._id);
