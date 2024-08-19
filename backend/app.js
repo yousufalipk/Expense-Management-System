@@ -5,6 +5,9 @@ const cors = require("cors");
 const user = require('./Routes/userRoutes');
 const expense = require('./Routes/expenseRoutes');
 
+const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN;
+const FRONTEND_DEPLOYEMENT = process.env.FRONTEND_DEPLOYEMENT;
+
 const app = express();
 
 app.use(cookieParser());
@@ -12,11 +15,11 @@ app.use(cookieParser());
 // CORS configuration
 app.use(
     cors({
-        origin: 'https://expense-management-system-frontend-beta.vercel.app',
-        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['X-CSRF-Token', 'X-Requested-With', 'Accept', 'Accept-Version', 'Content-Length', 'Content-MD5', 'Content-Type', 'Date', 'X-Api-Version'],
+        origin: {
+          FRONTEND_DOMAIN, 
+          FRONTEND_DEPLOYEMENT
+        },
         credentials: true,
-        optionsSuccessStatus: 200
     })
 );
 
