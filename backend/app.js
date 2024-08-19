@@ -13,16 +13,28 @@ const app = express();
 app.use(cookieParser());
 
 
-//CORS COnfig
-app.use(
-    cors({
-      origin: function (origin, callback) {
-        return callback(null, true);
-      },
-      optionsSuccessStatus: 200,
-      credentials: true,
-    })
-  );
+const allowedOrigins = [
+  FRONTEND_DEPLOYEMENT,
+  FRONTEND_DOMAIN
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true); 
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));
+
+
+app.use(cors(corsOptions));
+
 
 app.use(express.json());
 
