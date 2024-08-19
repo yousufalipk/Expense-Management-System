@@ -1,18 +1,20 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
+const cors = require("cors");
 
 const user = require('./Routes/userRoutes');
 const expense = require('./Routes/expenseRoutes');
 
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN;
+const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN;
+const FRONTEND_DEPLOYEMENT = process.env.FRONTEND_DEPLOYEMENT;
 
 app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-    FRONTEND_ORIGIN,
+    FRONTEND_DOMAIN,
+    FRONTEND_DEPLOYEMENT
 ];
 
 const corsOptions = {
