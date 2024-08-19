@@ -13,12 +13,10 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 
-// Use CORS middleware to allow requests from any origin
-app.use(cors({
-    origin: 'http://localhost:3000', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    credentials: true,
-}));
+const corsOptions = {
+    origin: '*', // Allow all origins
+    credentials: true, // Allow cookies and credentials
+};
 
 // Use '/api/v1/' for user routes
 app.use('/api/v1', user);
