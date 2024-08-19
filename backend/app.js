@@ -13,27 +13,22 @@ const app = express();
 app.use(cookieParser());
 
 
-const allowedOrigins = [
-  FRONTEND_DEPLOYEMENT,
-  FRONTEND_DOMAIN
-];
+// List of allowed origins
+const allowedOrigins = ['https://expense-management-system-frontend-beta.vercel.app', 'https://vercel.com/yousuf-bhatti-s-projects/expense-management-system-frontend/ATobKWjaBf776DbxE3NiUntj1PHA'];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true); 
+// CORS configuration
+app.use(cors({
+  origin: (origin, callback) => {
+    // Check if the origin is in the allowed list
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, 
-};
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+}));
 
-app.use(cors(corsOptions));
-
-
-app.use(cors(corsOptions));
 
 
 app.use(express.json());
