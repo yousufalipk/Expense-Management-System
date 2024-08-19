@@ -11,11 +11,12 @@ import AdminLayout from './Layout/Admin/Admin';
 function App() {
   const [isAuth, setAuth] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const refreshAuthToken = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/v1/refresh', { 
+        const response = await axios.get(`${apiUrl}}/refresh`, { 
           withCredentials: true 
         });
         
