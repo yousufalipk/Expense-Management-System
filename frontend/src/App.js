@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const refreshAuthToken = async () => {
       try {
-        const response = await axios.get(`${apiUrl}}/refresh`, { 
+        const response = await axios.get(`${apiUrl}/refresh`, { 
           withCredentials: true 
         });
         

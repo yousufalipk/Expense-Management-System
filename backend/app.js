@@ -1,34 +1,27 @@
 const express = require('express');
-const app = express();
 const cookieParser = require('cookie-parser');
 const cors = require("cors");
 
 const user = require('./Routes/userRoutes');
 const expense = require('./Routes/expenseRoutes');
 
-const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN;
-const FRONTEND_DEPLOYEMENT = process.env.FRONTEND_DEPLOYEMENT;
+const app = express();
 
-app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = [
-    FRONTEND_DOMAIN,
-    FRONTEND_DEPLOYEMENT
-];
 
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-};
+app.use(
+    cors({
+      origin: function (origin, callback) {
+        return callback(null, true);
+      },
+      optionsSuccessStatus: 200,
+      credentials: true,
+    })
+  );
 
-app.use(cors(corsOptions));
+
+  app.use(express.json());
 
 // Use '/api/v1' for user routes
 app.use('/api/v1', user);
@@ -40,10 +33,5 @@ app.get('/', (req, res) => {
     res.send('Server Runs Correctly');
 });
 
-// Error handling middleware (optional but recommended)
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
 
 module.exports = app;
